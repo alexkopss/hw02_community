@@ -11,21 +11,21 @@ class Post(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='posts'
-        )
+    )
     group = models.ForeignKey(
         'Group',
         blank=True,
         null=True,
         on_delete=models.CASCADE,
         related_name='posts'
-        )
+    )
 
 
 class Group(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(
         unique=True
-        )
+    )
     description = models.TextField()
 
     def __str__(self) -> str:
