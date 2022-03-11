@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,7 +61,7 @@ TEMPLATES = [
 
         # Оставляем True: шаблоны встроенных приложений (например, админки)
         # нужно искать в директориях приложений
-        'APP_DIRS': True, 
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -72,7 +71,7 @@ TEMPLATES = [
             ]
         },
     }
-] 
+]
 
 WSGI_APPLICATION = 'yatube.wsgi.application'
 
