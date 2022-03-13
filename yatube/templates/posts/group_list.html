@@ -1,10 +1,12 @@
 {% extends 'base.html' %} <!-- Расширение базвого файла -->
 <!DOCTYPE html> <!-- Используется html 5 версии -->
-    {% block content %} 
+      {% block content %} 
       <!-- класс py-5 создает отступы сверху и снизу блока -->
-      <div class="container py-5">     
-        <h1>Лев Толстой – зеркало русской революции</h1>
-        <p>{{ group.title }}</p> 
+      {% block title %}
+        <title>Подборка групп</title>
+      {% endblock %} 
+      <div class="container py-5">
+      <h1>{{ group.title }}</h1> 
         <article>
           {% for post in posts %}
           <ul>

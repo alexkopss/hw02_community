@@ -1,7 +1,10 @@
 {% extends 'base.html' %} <!-- Расширение базвого файла -->
 <!DOCTYPE html> <!-- Используется html 5 версии -->
-    {% block content %} 
+      {% block content %} 
       <!-- класс py-5 создает отступы сверху и снизу блока -->
+      {% block title %}
+        <title>Главная страница сайта</title>
+      {% endblock %} 
       <div class="container py-5">     
         <h1>Последние обновления на сайте</h1>
           {% for post in posts %}
