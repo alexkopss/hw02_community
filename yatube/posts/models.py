@@ -22,6 +22,9 @@ class Post(models.Model):
         verbose_name='Имя группы'
     )
 
+    def __str__(self) -> str:
+        return self.text
+
 
 class Group(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
