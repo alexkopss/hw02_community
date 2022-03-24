@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from posts import views
 
 urlpatterns = [
     # импорт правил из приложения posts
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls')),
     path('auth/', include('django.contrib.auth.urls')),
+    path('about/', include('about.urls', namespace='about')),
     path('', include('posts.urls', namespace='posts')),
+    # Профайл пользователя
+    # path('profile/<str:username>/', views.profile, name='profile'),
+    # path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
 ]
