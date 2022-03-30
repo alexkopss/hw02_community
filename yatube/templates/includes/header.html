@@ -10,6 +10,49 @@
             <!-- тег span используется для добавления нужных стилей отдельным участкам текста -->
             <span style="color:red">Ya</span>tube</a>
           </a>
+          {% comment %}
+      Меню - список пунктов со стандартными классами Bootsrap.
+      Класс nav-pills нужен для выделения активных пунктов 
+      {% endcomment %}
+      {% with request.resolver_match.view_name as view_name %}  
+      <ul class="nav nav-pills">
+        <li class="nav-item"> 
+          <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}" 
+          href="{% url 'about:author' %}"
+       >
+         Об авторе
+       </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}" 
+          href="{% url 'about:tech' %}"
+       >
+       Технологии
+       </a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item"> 
+          <a class="nav-link" href="<!--  -->">Новая запись</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light" href="<!--  -->">Изменить пароль</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light" href="<!--  -->">Выйти</a>
+        </li>
+        <li>
+          Пользователь: {{ user.username }}
+        </li>
+        {% else %}
+        <li class="nav-item"> 
+          <a class="nav-link link-light" href="<!--  -->">Войти</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light" href="<!--  -->">Регистрация</a>
+        </li>
+        {% endif %}
+        {% endwith %} 
+      </ul>
         </div>
       </nav>      
     </header>

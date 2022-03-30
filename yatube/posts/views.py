@@ -1,6 +1,7 @@
+# from multiprocessing import context
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Group
+from .models import Post, Group, User
 
 
 # Главная страница
@@ -42,18 +43,37 @@ def group_posts(request, slug):
     return render(request, 'posts/group_list.html', context)
 
 
-# def profile(request, username):
-#     # Здесь код запроса к модели и создание словаря контекста
-#     context = {
-#     }
-#     return render(request, 'posts/profile.html', context)
+
+def profile(request, username):
+    author = User.objects.get(username=username)
+    post_list = Post.objects.filter(author=author)
+    posts_number = post_list.count()
+    paginator = Paginator(post_list, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'author': author,
+        'post_list': post_list,
+        'posts_number': posts_number,
+        'page_obj': page_obj,
+    }
+    return render(request, 'posts/profile.html', context)
 
 
-# def post_detail(request, post_id):
-#     post = Post.objects.select_related('author', 'group').get(id=post_id)
-#     author_posts = post.author.posts.count()
-#     context = {
-#         'post': post,
-#         'author_posts': author_posts,
-#     }
-#     return render(request, 'posts/post_detail.html', context)
+def post_detail(request, post_id):
+    post_det = Post.objects.filter(id=post_id)
+    author_posts = Post.objects.filter(id=post_id).count()
+    context = {
+        'post_det': post_det,
+        'author_posts': author_posts,
+    }
+    return render(request, 'posts/post_detail.html', context)
+
+
+def post_create(request):
+    post_det = Post.objects.all
+    context = {
+        'post_det': post_det,
+        
+    }
+    return render(request, 'posts/post_create.html', context)

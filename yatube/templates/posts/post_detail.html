@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %}Пост {{ post_det|truncatechars:30 }}.{% endblock %}    
+{% block content %}
+<div class="row">
+  <aside class="col-12 col-md-3">
+    {% for post in post_det %}
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+        </li>
+        <li class="list-group-item">
+        Автор: {{ post.author.get_full_name }}
+        </li>
+        {% if post.group %}
+        <li class="list-group-item">
+        Название группы: {{ post.group.title }}
+        </li>
+        {% endif %}
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+        Всего постов автора:  {{ author_posts }}
+        </li>
+    </ul>
+    </aside>
+     {% endfor %}
+     <article class="col-12 col-md-9">
+        <p>
+            {{ post_det }}
+        </p>
+      </article>
+</div> 
+{% endblock  %}
+</html> 
