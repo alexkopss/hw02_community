@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -37,4 +38,10 @@ class Group(models.Model):
     def __str__(self) -> str:
         return self.title
 
-# class PostForm
+
+class PostForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea, required=True)
+
+    class Meta:
+        model = Post
+        fields = ('text', 'group')

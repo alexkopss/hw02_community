@@ -1,34 +1,53 @@
-<!DOCTYPE html>
-{% extends "base.html" %}
-{% block title %}Пост {{ post_det|truncatechars:30 }}.{% endblock %}    
+{% extends 'base.html' %}
+{% block title %} Новый пост {% endblock %}
 {% block content %}
-<div class="row">
-  <aside class="col-12 col-md-3">
-    {% for post in post_det %}
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-        Дата публикации: {{ post.pub_date|date:"d E Y" }}
-        </li>
-        <li class="list-group-item">
-        Автор: {{ post.author.get_full_name }}
-        </li>
-        {% if post.group %}
-        <li class="list-group-item">
-        Название группы: {{ post.group.title }}
-        </li>
-        {% endif %}
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-        Всего постов автора:  {{ author_posts }}
-        </li>
-    </ul>
-    </aside>
-     {% endfor %}
-     <article class="col-12 col-md-9">
-        <p>
-            {{ post_det }}
-        </p>
-      </article>
-</div> 
-{% endblock  %}
-</html> 
+  <body>	   
+    <main>
+     
+        <div class="row justify-content-center">
+          <div class="col-md-8 p-5">
+            <div class="card">
+              <div class="card-header">
+                Добавить запись  
+              </div>
+              <div class="card-body">        
+                <form method="post" action="{% url 'posts:post_create' %}">
+                  <input type="hidden" name="csrfmiddlewaretoken" value="">
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_text">
+                      Текст поста                  
+                      <span class="required text-danger" >*</span>                  
+                    </label>
+                    <textarea name="text" cols="40" rows="10" class="form-control" required id="id_text">
+                    </textarea>                
+                    <small id="id_text-help" class="form-text text-muted">
+                      Текст нового поста
+                    </small>                  
+                  </div>            
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_group">
+                      Список групп                  
+                    </label>
+                    <select name="group" class="form-control" id="id_group">
+                      {% for group in form.group %}
+                      <option selected>{{group}}</option>
+                      {% endfor %}
+                    </select>
+                    <small id="id_group-help" class="form-text text-muted">
+                      Группа, к которой будет относиться пост
+                    </small>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                      Добавить
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+    </main>
+  </body>
+{% endblock %}

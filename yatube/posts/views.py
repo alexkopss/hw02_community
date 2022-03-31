@@ -1,7 +1,7 @@
 # from multiprocessing import context
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Group, User
+from django.shortcuts import redirect, render, get_object_or_404
+from .models import Post, Group, User, PostForm
 
 
 # Главная страница
@@ -43,7 +43,6 @@ def group_posts(request, slug):
     return render(request, 'posts/group_list.html', context)
 
 
-
 def profile(request, username):
     author = User.objects.get(username=username)
     post_list = Post.objects.filter(author=author)
@@ -74,6 +73,23 @@ def post_create(request):
     post_det = Post.objects.all
     context = {
         'post_det': post_det,
-        
     }
     return render(request, 'posts/post_create.html', context)
+
+
+def post_create(request):
+    if request.method == 'POST':
+        print('я в POST')
+        form = PostForm(request.POST)
+        if form.is_valid():
+            print('форма валидна, огонь')
+            post = form.save(commit=False)
+            post.author = request.user
+            form.save()
+            return redirect('posts:profile', username=post.author)
+
+        print('форма невалидна, пост не создался, вижу старую страницу')
+        return render(request, 'posts/post_create.html', {'form': form})
+
+    form = PostForm()
+    return render(request, 'posts/post_create.html', {'form': form})
