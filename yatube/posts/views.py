@@ -77,19 +77,38 @@ def post_create(request):
     return render(request, 'posts/post_create.html', context)
 
 
+# @login_required
 def post_create(request):
     if request.method == 'POST':
-        print('я в POST')
         form = PostForm(request.POST)
         if form.is_valid():
-            print('форма валидна, огонь')
             post = form.save(commit=False)
             post.author = request.user
-            form.save()
-            return redirect('posts:profile', username=post.author)
+            post.save()
+            return redirect('profile', username=post.author)
 
-        print('форма невалидна, пост не создался, вижу старую страницу')
         return render(request, 'posts/post_create.html', {'form': form})
 
     form = PostForm()
     return render(request, 'posts/post_create.html', {'form': form})
+
+
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    is_edit = True
+    if request.method == 'GET':
+        form = PostForm(instance=post)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:profile', post.author)
+        else:
+            form = PostForm(instance=post)
+    return render(
+        request,
+        'posts/post_create.html',
+        {'form': form, 'is_edit': is_edit, 'post': post}
+    )
